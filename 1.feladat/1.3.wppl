@@ -1,0 +1,31 @@
+var dobás = function () {
+  var kocka1 = categorical({ps: [1/6, 1/6, 1/6, 1/6, 1/6, 1/6], 
+                            vs: [1, 2, 3, 4, 5, 6]});
+  var kocka2 = categorical({ps: [1/6, 1/6, 1/6, 1/6, 1/6, 1/6], 
+                            vs: [1, 2, 3, 4, 5, 6]});
+  return [kocka1,kocka2];
+}
+
+var kedvező_dobás = function () {
+  var kocka1 = categorical({ps: [1/6, 1/6, 1/6, 1/6, 1/6, 1/6], 
+                            vs: [1, 2, 3, 4, 5, 6]});
+  var kocka2 = categorical({ps: [1/6, 1/6, 1/6, 1/6, 1/6, 1/6], 
+                            vs: [1, 2, 3, 4, 5, 6]});
+  condition(kocka1 + kocka2 >= 4);
+  
+  return  [kocka1,kocka2];
+}
+
+var összes = Infer({method: 'enumerate'}, dobás);
+
+var kedvező = Infer({method: 'enumerate'}, kedvező_dobás);
+
+viz.auto(összes);
+
+viz.auto(kedvező);
+
+print("p = kedvező/összes = " 
+      + Math.exp((összes.score)([6,6]))/Math.exp((kedvező.score)([6,6])));
+
+print(Math.exp((összes.score)([6,6])))
+print(Math.exp((kedvező.score)([6,6])))
