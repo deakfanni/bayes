@@ -1,0 +1,22 @@
+var húzás = function () {
+  var huzas1 = randomInteger(52)
+  var huzas2 = randomInteger(52)
+  condition(huzas1 !== huzas2)
+  return [huzas1, huzas2];
+}
+
+var kedvező_húzás = function () {
+  var huzas1 = randomInteger(52)
+  var huzas2 = randomInteger(52)
+  condition(huzas1 !== huzas2 && huzas1 < 4 && huzas2 >= 4 || huzas2 < 4 && huzas1 >= 4)  //négytől kisebb reprezentálja a királyokat, illetve a sorrendiség nem számít
+  return  [huzas1,huzas2];
+}
+
+var összes = Enumerate(húzás)
+//viz.hist(összes);
+
+var kedvező = Enumerate(kedvező_húzás)
+//print(kedvező);
+viz.hist(kedvező)
+
+print("p = " + kedvező.supp.length / összes.supp.length)

@@ -1,0 +1,16 @@
+//három szám közül való választás ugyanakkora eséllyel
+var választ = function () {
+  var v1 = categorical({ps: [1/4, 1/4, 1/4, 1/4],  
+                            vs: [0, 1, 2, 3]});
+  var v2 = categorical({ps: [1/4, 1/4, 1/4, 1/4], 
+                            vs: [0, 1, 2, 3]});
+  var v3 = categorical({ps: [1/4, 1/4, 1/4, 1/4], 
+                            vs: [0, 1, 2, 3]});
+  condition(v1 + v2 + v3 === 7)
+  return v1;
+}
+
+var eloszlás = Infer({method: 'enumerate'}, választ);
+
+print(eloszlás)
+viz.auto(eloszlás);
