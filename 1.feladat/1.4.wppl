@@ -1,0 +1,14 @@
+var operator = ['és','vagy', 'kizáró vagy'];
+
+var model = function() {
+  var op = uniformDraw(operator)
+  var premise = ("Premissza: Ha ász van a kezemben, akkor király van, vagy ha nincs ász a kezemben, akkor király van a kezemben. " + "(" + op + ")")
+  print(premise);
+  
+  var conclusion = op === "és"? "király van a kezemben": op === "vagy"? "": "nincs király a kezemben";
+  print("Konklúzió: " + conclusion);
+}
+
+var output = 
+    Infer({model: model, samples: 1, method: 'rejection'});
+viz.marginals(output);
