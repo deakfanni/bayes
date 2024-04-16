@@ -1,0 +1,27 @@
+var newData = [{k: 28}, {k: 31}, {k: 44}, {k: 29}];
+
+var extendedModel = function() {
+  var data = [{k: 5}, {k: 16}, {k: 17}].concat(newData); 
+
+  var m = gaussian(32, 10); 
+  
+  map(function(d) {
+    observe(Gaussian({mu: m, sigma: 1}), d.k);
+  }, data);
+
+  var Prior = gaussian(32, 10); 
+  
+  var PredictivePosterior = gaussian(m, 1); 
+
+  return {
+    Prior: Prior, 
+    Posterior: m,
+    PosteriorPredictive: PredictivePosterior
+  };
+}
+
+var opts = {method: 'SMC', particles: 2000, rejuvSteps: 5};
+
+var output_1 = Infer(opts, extendedModel);
+
+viz.marginals(output_1);
