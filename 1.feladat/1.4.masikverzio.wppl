@@ -1,0 +1,45 @@
+//itt egy másik verzióval próbálkoztam, hogy kevésbe legyen "hard code", inkább az igazságtáblából következtessen
+
+var operator = ['és','vagy', 'kizáró vagy'];
+
+//a 4 logikai művelet definiálása
+
+var or = function(a, b) { return a || b; }
+var and = function(a, b) { return a && b; }
+var xor = function(a, b) { return a ^ b; }
+var impl = function(a, b) { return !a || b; }
+
+//az állítás értékelése
+var eval = function(op, ace, king) {
+  return op(impl(ace, king), impl(!ace, king))
+}
+
+//az adott operaorra milyen interpretációk esetén lesz igaz
+var possible_king_values = function(op) {
+  var possible = []
+  if (eval(op, true, true)) possible.push(true)
+  if (eval(op, true, false)) possible.push(false)
+  if (eval(op, false, true)) possible.push(true)
+  if (eval(op, false, false)) possible.push(false)
+  
+  return possible
+}
+
+//random operátor
+var model = function() {
+  var opIndex = randomInteger(3);
+  var opStr = operator[opIndex];
+  var op = [and, or, xor][opIndex];
+  var premise = ("Premissza: Ha ász van a kezemben, akkor király van, vagy ha nincs ász a kezemben, akkor király van a kezemben. " + "(" + opStr + ")")
+  
+  print(premise)
+  
+//király lehetséges értékeinek lekérése: ha nem lehetséges, hogy van, akkor nincs, ha nem lehetséges, hogy nincs, akkor van, egyébként semmi a konklúzió
+
+  var possible = possible_king_values(op)
+  var conclusion = !possible.includes(true)? "nincs király a kezemben": !possible.includes(false)? "van király a kezemben": ""
+  print("Konklúzió: " + conclusion);
+}
+
+var output = 
+    Infer({model: model, samples: 1, method: 'rejection'});
